@@ -19,6 +19,18 @@ const theme = computed(() => store.state.theme);
 </script>
 
 <style lang="less">
+@import url("https://fonts.googleapis.com/css2?family=Sofia+Sans&display=swap");
+
+.v-application {
+  font-family: "Sofia Sans", sans-serif;
+  background-size: cover !important;
+  background-image: url("@/assets/books.jpg") !important;
+}
+
+.v-toolbar {
+  opacity: 0.6;
+}
+
 .v-toolbar__content {
   justify-content: space-between;
 }
