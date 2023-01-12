@@ -7,6 +7,7 @@ import { computed } from "vue";
 import store from "@/store";
 
 const theme = computed(() => store.state.theme);
+
 const icon = computed(() => {
   return theme.value === "light" ? "mdi-weather-sunny" : "mdi-weather-night";
 });
