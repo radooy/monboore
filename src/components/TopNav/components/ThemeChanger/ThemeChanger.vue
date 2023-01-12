@@ -1,5 +1,7 @@
 <template>
-  <v-btn :prepend-icon="icon" @click="onClick">Смени темата</v-btn>
+  <v-btn @click="onClick" class="mr-3">
+    <v-icon>{{ icon }}</v-icon>
+  </v-btn>
 </template>
 
 <script lang="ts" setup>

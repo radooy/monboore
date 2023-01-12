@@ -17,3 +17,9 @@ import TopNav from "./components/TopNav/TopNav.vue";
 
 const theme = computed(() => store.state.theme);
 </script>
+
+<style lang="less">
+.v-toolbar__content {
+  justify-content: space-between;
+}
+</style>
