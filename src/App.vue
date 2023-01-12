@@ -1,6 +1,6 @@
 <template>
   <v-app :theme="theme">
-    <top-nav @change-theme="(e) => (theme = e)" />
+    <top-nav />
     <v-main>
       <v-container>
         <router-view></router-view>
@@ -10,8 +10,10 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from "vue";
+import { computed } from "vue";
+import store from "./store";
+
 import TopNav from "./components/TopNav/TopNav.vue";
 
-const theme = ref("light");
+const theme = computed(() => store.state.theme);
 </script>

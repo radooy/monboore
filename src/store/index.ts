@@ -1,9 +1,19 @@
 import { createStore } from "vuex";
 
 export default createStore({
-  state: {},
+  state: {
+    theme: "light",
+  },
   getters: {},
-  mutations: {},
-  actions: {},
+  mutations: {
+    setTheme(state, payload) {
+      state.theme = payload;
+    },
+  },
+  actions: {
+    updateTheme(ctx, payload) {
+      ctx.commit("setTheme", payload);
+    },
+  },
   modules: {},
 });
