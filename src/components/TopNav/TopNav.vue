@@ -2,8 +2,7 @@
   <v-app-bar>
     <v-btn @click="goTo('/')" class="logo">MONBOORE</v-btn>
     <div>
-      <v-btn @click="goTo('register')">Регистрация</v-btn>
-      <v-btn @click="goTo('login')">Логин</v-btn>
+      <v-btn @click="goTo('login')">Вход</v-btn>
       <theme-changer></theme-changer>
     </div>
   </v-app-bar>

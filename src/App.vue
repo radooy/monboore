@@ -18,7 +18,7 @@ import TopNav from "./components/TopNav/TopNav.vue";
 const theme = computed(() => store.state.theme);
 </script>
 
-<style lang="less">
+<style lang="scss">
 @import url("https://fonts.googleapis.com/css2?family=Sofia+Sans&display=swap");
 
 .v-application {
@@ -28,7 +28,7 @@ const theme = computed(() => store.state.theme);
 }
 
 .v-toolbar {
-  opacity: 0.6;
+  background-color: white;
 }
 
 .v-toolbar__content {
