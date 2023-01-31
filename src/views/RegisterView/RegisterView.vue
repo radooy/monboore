@@ -1,7 +1,7 @@
 <template>
   <form-wrapper>
     <div class="pt-5">
-      <h2 class="text-center mb-3 font-weight-light">Регистрирай се</h2>
+      <h2 class="text-center mb-3 font-weight-light">Регистрирайте се</h2>
       <h4 class="text-center mb-3 font-weight-light">
         Създайте нов потребителски профил
       </h4>
