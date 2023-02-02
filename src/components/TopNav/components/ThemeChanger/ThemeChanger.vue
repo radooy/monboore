@@ -8,15 +8,19 @@
 import { computed } from "vue";
 import store from "@/store";
 
+import { Actions, ThemeVariants } from "@/helpers/enums/store/store.enum";
+
 const theme = computed(() => store.state.theme);
 
 const icon = computed(() => {
-  return theme.value === "light" ? "mdi-weather-sunny" : "mdi-weather-night";
+  return theme.value === ThemeVariants.light
+    ? "mdi-weather-sunny"
+    : "mdi-weather-night";
 });
 
 function onClick(): void {
-  theme.value === "light"
-    ? store.dispatch("updateTheme", "dark")
-    : store.dispatch("updateTheme", "light");
+  theme.value === ThemeVariants.light
+    ? store.dispatch(Actions.updateTheme, ThemeVariants.dark)
+    : store.dispatch(Actions.updateTheme, ThemeVariants.light);
 }
 </script>
