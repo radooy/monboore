@@ -8,6 +8,12 @@
         {{ PageTexts.createNewProfile }}
       </h4>
     </div>
+
+    <ErrorMessage
+      v-if="isEmailAlreadyInUse"
+      :message="Errors.emailAlreadyInUse"
+    />
+
     <v-form
       class="w-75 mx-auto my-0 pa-5"
       ref="form"
@@ -39,21 +45,21 @@
         type="password"
         required
       ></v-text-field>
+
       <v-checkbox
         v-model="checked"
         @focus="isEmailAlreadyInUse = false"
         @click="openDialog"
         :label="PageTexts.agreeWithTerms"
       ></v-checkbox>
-      <div class="text-center text-red-darken-4" v-if="isEmailAlreadyInUse">
-        {{ Errors.emailAlreadyInUse }}
-      </div>
+
       <div class="text-center">
         <v-btn @click="register" :disabled="!valid || !checked">
           {{ PageTexts.finish }}
         </v-btn>
       </div>
     </v-form>
+
     <terms-dialog
       :dialog="dialog"
       @agree="dialog = false"
@@ -67,13 +73,14 @@ import { ref } from "vue";
 import { useRouter } from "vue-router";
 import TermsDialog from "./components/TermsDialog.vue";
 import FormWrapper from "@/components/FormWrapper/FormWrapper.vue";
+import ErrorMessage from "@/components/ErrorMessage/ErrorMessage.vue";
 
 import { createUserWithEmailAndPassword, UserCredential } from "firebase/auth";
 import { doc, setDoc } from "@firebase/firestore";
 import { auth, db } from "@/firebase/index";
 
 import { Errors, PageTexts } from "@/helpers/enums/register/register.enum";
-import { DbTables } from "@/helpers/enums/db.enum";
+import { DbTables } from "@/helpers/enums/db/db.enum";
 
 // FORM
 const form = ref<HTMLFormElement>();
@@ -133,20 +140,25 @@ async function register(): Promise<void> {
   if (!checked.value) {
     return;
   }
-  const { valid } = await form?.value?.validate();
 
-  if (valid) {
-    createUserWithEmailAndPassword(auth, email.value, password.value)
-      .then((userCredential) => {
-        addUserToDatabase(userCredential).then(() => {
-          router.push("login");
+  try {
+    const { valid } = await form?.value?.validate();
+
+    if (valid) {
+      createUserWithEmailAndPassword(auth, email.value, password.value)
+        .then((userCredential) => {
+          addUserToDatabase(userCredential).then(() => {
+            router.push("login");
+          });
+        })
+        .catch((error) => {
+          console.log(error);
+          isEmailAlreadyInUse.value = true;
+          resetForm();
         });
-      })
-      .catch((error) => {
-        console.log(error);
-        isEmailAlreadyInUse.value = true;
-        resetForm();
-      });
+    }
+  } catch (error) {
+    console.log(error);
   }
 }
 
@@ -154,11 +166,15 @@ async function addUserToDatabase(
   userCredential: UserCredential
 ): Promise<void> {
   {
-    await setDoc(doc(db, DbTables.users, userCredential.user.uid), {
-      email: email.value,
-      isAdmin: false,
-      agreeWithTerms: checked.value,
-    });
+    try {
+      await setDoc(doc(db, DbTables.users, userCredential.user.uid), {
+        email: email.value,
+        isAdmin: false,
+        agreeWithTerms: checked.value,
+      });
+    } catch (error) {
+      console.log(error);
+    }
   }
 }
 </script>
