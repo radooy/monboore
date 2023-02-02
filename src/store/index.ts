@@ -1,22 +1,38 @@
 import { ActionContext, createStore } from "vuex";
 
-interface IState {
-  theme: string;
-}
+import {
+  IState,
+  IThemePayload,
+  ILoginPayload,
+} from "@/helpers/types/store.types";
+import { Mutations, ThemeVariants } from "@/helpers/enums/store/store.enum";
 
 export default createStore<IState>({
   state: {
-    theme: "light",
+    theme: ThemeVariants.light,
+    loggedIn: false,
+    email: "",
+    isAdmin: false,
+    uid: "",
   },
   getters: {},
   mutations: {
-    setTheme(state: IState, payload: string): void {
+    setTheme(state: IState, payload: IThemePayload): void {
       state.theme = payload;
+    },
+    setLogIn(state: IState, payload: ILoginPayload): void {
+      state.loggedIn = true;
+      state.email = payload.email;
+      state.isAdmin = payload.isAdmin;
+      state.uid = payload.uid;
     },
   },
   actions: {
-    updateTheme(ctx: ActionContext<IState, IState>, payload: string) {
-      ctx.commit("setTheme", payload);
+    updateTheme(ctx: ActionContext<IState, IState>, payload: IThemePayload) {
+      ctx.commit(Mutations.setTheme, payload);
+    },
+    logIn(ctx: ActionContext<IState, IState>, payload: ILoginPayload) {
+      ctx.commit(Mutations.setLogIn, payload);
     },
   },
   modules: {},
