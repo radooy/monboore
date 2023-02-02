@@ -68,13 +68,9 @@ import { useRouter } from "vue-router";
 import TermsDialog from "./components/TermsDialog.vue";
 import FormWrapper from "@/components/FormWrapper/FormWrapper.vue";
 
-import {
-  getAuth,
-  createUserWithEmailAndPassword,
-  UserCredential,
-} from "firebase/auth";
+import { createUserWithEmailAndPassword, UserCredential } from "firebase/auth";
 import { doc, setDoc } from "@firebase/firestore";
-import { useFirestore } from "vuefire";
+import { auth, db } from "@/firebase/index";
 
 import { Errors, PageTexts } from "@/helpers/enums/register/register.enum";
 import { DbTables } from "@/helpers/enums/db.enum";
@@ -130,7 +126,6 @@ function closeDialog() {
 }
 
 // REGISTER
-const db = useFirestore();
 const isEmailAlreadyInUse = ref(false);
 const router = useRouter();
 
@@ -141,8 +136,6 @@ async function register(): Promise<void> {
   const { valid } = await form?.value?.validate();
 
   if (valid) {
-    const auth = getAuth();
-
     createUserWithEmailAndPassword(auth, email.value, password.value)
       .then((userCredential) => {
         addUserToDatabase(userCredential).then(() => {
