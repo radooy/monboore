@@ -1,21 +1,41 @@
 <template>
   <v-app :theme="theme">
-    <top-nav />
-    <v-main>
-      <v-container>
-        <router-view></router-view>
-      </v-container>
-    </v-main>
+    <div v-if="loading">Loading</div>
+    <div v-else>
+      <top-nav />
+      <v-main>
+        <v-container>
+          <router-view></router-view>
+        </v-container>
+      </v-main>
+    </div>
   </v-app>
 </template>
 
 <script lang="ts" setup>
-import { computed } from "vue";
+import { ref, computed } from "vue";
 import store from "./store";
 
 import TopNav from "./components/TopNav/TopNav.vue";
 
+import { auth } from "./firebase";
+import { authUser } from "@/helpers/functions/auth";
+import { Mutations } from "./helpers/enums/store/store.enum";
+
 const theme = computed(() => store.state.theme);
+const loading = ref(true);
+
+auth.onAuthStateChanged((user) => {
+  if (user) {
+    authUser(user).then(() => {
+      loading.value = false;
+    });
+  } else {
+    store.dispatch(Mutations.logOut).then(() => {
+      loading.value = false;
+    });
+  }
+});
 </script>
 
 <style lang="scss">

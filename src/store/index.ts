@@ -26,6 +26,12 @@ export default createStore<IState>({
       state.isAdmin = payload.isAdmin;
       state.uid = payload.uid;
     },
+    logOut(state: IState): void {
+      state.loggedIn = false;
+      state.email = "";
+      state.isAdmin = false;
+      state.uid = "";
+    },
   },
   actions: {
     updateTheme(ctx: ActionContext<IState, IState>, payload: IThemePayload) {
@@ -33,6 +39,9 @@ export default createStore<IState>({
     },
     logIn(ctx: ActionContext<IState, IState>, payload: ILoginPayload) {
       ctx.commit(Mutations.setLogIn, payload);
+    },
+    logOut(ctx: ActionContext<IState, IState>) {
+      ctx.commit(Mutations.logOut);
     },
   },
   modules: {},

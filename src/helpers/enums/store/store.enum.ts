@@ -1,6 +1,7 @@
 export enum Mutations {
   setTheme = "setTheme",
   setLogIn = "setLogIn",
+  logOut = "logOut",
 }
 
 export enum Actions {
