@@ -1,6 +1,6 @@
 <template>
   <v-app :theme="theme">
-    <div v-if="loading">Loading</div>
+    <LoadSpinner v-if="loading"></LoadSpinner>
     <div v-else>
       <top-nav />
       <v-main>
@@ -17,6 +17,7 @@ import { ref, computed } from "vue";
 import store from "./store";
 
 import TopNav from "./components/TopNav/TopNav.vue";
+import LoadSpinner from "./components/LoadSpinner/LoadSpinner.vue";
 
 import { auth } from "./firebase";
 import { authUser } from "@/helpers/functions/auth";
