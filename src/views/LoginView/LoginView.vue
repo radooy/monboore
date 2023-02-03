@@ -41,18 +41,15 @@
 <script lang="ts" setup>
 import { ref } from "vue";
 import { useRouter } from "vue-router";
-import store from "@/store";
 
 import FormWrapper from "@/components/FormWrapper/FormWrapper.vue";
 import ErrorMessage from "@/components/ErrorMessage/ErrorMessage.vue";
 
-import { auth, db } from "@/firebase/index";
-import { signInWithEmailAndPassword, UserCredential } from "firebase/auth";
-import { doc, getDoc } from "@firebase/firestore";
+import { auth } from "@/firebase/index";
+import { signInWithEmailAndPassword } from "firebase/auth";
 
 import { PageTexts, Errors } from "@/helpers/enums/login/login.enum";
-import { DbTables } from "@/helpers/enums/db/db.enum";
-import { Actions } from "@/helpers/enums/store/store.enum";
+import { authUser } from "@/helpers/functions/auth";
 
 const form = ref<HTMLFormElement>();
 const router = useRouter();
@@ -75,25 +72,10 @@ async function login() {
 
   if (valid) {
     signInWithEmailAndPassword(auth, email.value, password.value)
-      .then(async (userCredential: UserCredential) => {
-        const docRef = doc(db, DbTables.users, userCredential.user.uid);
-
-        try {
-          const docRefSnapshot = await getDoc(docRef);
-
-          if (docRefSnapshot.exists()) {
-            const data = docRefSnapshot.data();
-            const isAdmin: boolean = data.isAdmin;
-            const { email, uid } = userCredential.user;
-
-            store
-              .dispatch(Actions.logIn, { email, uid, isAdmin })
-              .then(() => router.push("/"))
-              .catch((e) => console.log(e));
-          }
-        } catch (error) {
-          console.log(error);
-        }
+      .then((UserCredential) => {
+        authUser(UserCredential.user)
+          .then(() => router.push("/"))
+          .catch((e) => console.log(e));
       })
       .catch((e) => {
         hasError.value = true;
