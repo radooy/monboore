@@ -14,15 +14,16 @@
 <script lang="ts" setup>
 import { computed } from "vue";
 import { useRouter } from "vue-router";
+import { useStore } from "vuex";
 
 import ThemeChanger from "./components/ThemeChanger/ThemeChanger.vue";
 
-import store from "@/store";
 import { auth } from "@/firebase";
 import { signOut } from "@firebase/auth";
 
 import { PageTexts } from "@/helpers/enums/nav/nav.enum";
 
+const store = useStore();
 const loggedIn = computed(() => store.state.loggedIn);
 const router = useRouter();
 

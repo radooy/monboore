@@ -14,7 +14,7 @@
 
 <script lang="ts" setup>
 import { ref, computed } from "vue";
-import store from "./store";
+import { useStore } from "vuex";
 
 import TopNav from "./components/TopNav/TopNav.vue";
 import LoadSpinner from "./components/LoadSpinner/LoadSpinner.vue";
@@ -23,12 +23,13 @@ import { auth } from "./firebase";
 import { authUser } from "@/helpers/functions/auth";
 import { Mutations } from "./helpers/enums/store/store.enum";
 
+const store = useStore();
 const theme = computed(() => store.state.theme);
 const loading = ref(true);
 
 auth.onAuthStateChanged((user) => {
   if (user) {
-    authUser(user).then(() => {
+    authUser(user, store.dispatch).then(() => {
       loading.value = false;
     });
   } else {

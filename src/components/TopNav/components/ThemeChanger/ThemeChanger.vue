@@ -6,10 +6,11 @@
 
 <script lang="ts" setup>
 import { computed } from "vue";
-import store from "@/store";
+import { useStore } from "vuex";
 
 import { Actions, ThemeVariants } from "@/helpers/enums/store/store.enum";
 
+const store = useStore();
 const theme = computed(() => store.state.theme);
 
 const icon = computed(() => {
