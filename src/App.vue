@@ -9,6 +9,7 @@
         </v-container>
       </v-main>
     </div>
+    <FooterComponent></FooterComponent>
   </v-app>
 </template>
 
@@ -18,6 +19,7 @@ import { useStore } from "vuex";
 
 import TopNav from "./components/TopNav/TopNav.vue";
 import LoadSpinner from "./components/LoadSpinner/LoadSpinner.vue";
+import FooterComponent from "./components/FooterComponent/FooterComponent.vue";
 
 import { auth } from "./firebase";
 import { authUser } from "@/helpers/functions/auth";
@@ -55,5 +57,10 @@ auth.onAuthStateChanged((user) => {
 
 .v-toolbar__content {
   justify-content: space-between;
+}
+
+.v-bottom-navigation__content {
+  justify-content: space-around !important;
+  align-self: center;
 }
 </style>
