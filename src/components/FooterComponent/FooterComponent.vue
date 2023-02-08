@@ -7,7 +7,9 @@
       <v-icon size="40">mdi-instagram</v-icon>
     </a>
     <a href="http://bookboxbg.com/" target="_blank">
-      <v-icon size="40">mdi-store</v-icon>
+      <v-icon size="40">
+        <BookboxIcon></BookboxIcon>
+      </v-icon>
     </a>
     <RouterLink to="about">
       <v-icon size="40" class="icon"> mdi-information </v-icon>
@@ -16,16 +18,12 @@
 </template>
 
 <script lang="ts" setup>
-import { computed } from "vue";
-import { useStore } from "vuex";
 import { RouterLink } from "vue-router";
+import BookboxIcon from "@/components/BookboxIcon/BookboxIcon.vue";
 
-const store = useStore();
-const theme = computed(() => store.state.theme);
+import { useColor } from "@/helpers/composables/useColor";
 
-const color = computed(() => {
-  return theme.value === "light" ? "black" : "#ffffffde";
-});
+const color = useColor();
 </script>
 
 <style lang="scss" scoped>
