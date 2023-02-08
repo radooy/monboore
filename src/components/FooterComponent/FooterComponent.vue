@@ -1,18 +1,18 @@
 <template>
   <v-bottom-navigation elevation="7" height="100" class="pa-5">
     <a href="https://www.facebook.com/book1box" target="_blank">
-      <v-icon size="40">mdi-facebook</v-icon>
+      <v-icon size="30">mdi-facebook</v-icon>
     </a>
     <a href="https://www.instagram.com/bookbox.1/" target="_blank">
-      <v-icon size="40">mdi-instagram</v-icon>
+      <v-icon size="30">mdi-instagram</v-icon>
     </a>
     <a href="http://bookboxbg.com/" target="_blank">
-      <v-icon size="40">
+      <v-icon size="30">
         <BookboxIcon></BookboxIcon>
       </v-icon>
     </a>
     <RouterLink to="about">
-      <v-icon size="40" class="icon"> mdi-information </v-icon>
+      <v-icon size="30" class="icon"> mdi-information </v-icon>
     </RouterLink>
   </v-bottom-navigation>
 </template>
