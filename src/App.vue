@@ -3,13 +3,13 @@
     <LoadSpinner v-if="loading"></LoadSpinner>
     <div v-else>
       <top-nav />
-      <v-main>
+      <v-main id="main">
         <v-container>
           <router-view></router-view>
         </v-container>
       </v-main>
+      <FooterComponent></FooterComponent>
     </div>
-    <FooterComponent></FooterComponent>
   </v-app>
 </template>
 
