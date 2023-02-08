@@ -14,6 +14,7 @@ export default createStore<IState>({
     email: "",
     isAdmin: false,
     uid: "",
+    loading: false,
   },
   getters: {},
   mutations: {
@@ -32,6 +33,9 @@ export default createStore<IState>({
       state.isAdmin = false;
       state.uid = "";
     },
+    setLoading(state: IState, payload: boolean): void {
+      state.loading = payload;
+    },
   },
   actions: {
     updateTheme(ctx: ActionContext<IState, IState>, payload: IThemePayload) {
@@ -42,6 +46,9 @@ export default createStore<IState>({
     },
     logOut(ctx: ActionContext<IState, IState>) {
       ctx.commit(Mutations.logOut);
+    },
+    loading(ctx: ActionContext<IState, IState>, payload) {
+      ctx.commit(Mutations.setLoading, payload);
     },
   },
   modules: {},

@@ -41,6 +41,7 @@
 <script lang="ts" setup>
 import { ref } from "vue";
 import { useRouter } from "vue-router";
+import { useStore } from "vuex";
 
 import FormWrapper from "@/components/FormWrapper/FormWrapper.vue";
 import ErrorMessage from "@/components/ErrorMessage/ErrorMessage.vue";
@@ -50,7 +51,9 @@ import { signInWithEmailAndPassword } from "firebase/auth";
 
 import { PageTexts, Errors } from "@/helpers/enums/login/login.enum";
 import { authUser } from "@/helpers/functions/auth";
+import { Actions } from "@/helpers/enums/store/store.enum";
 
+const store = useStore();
 const form = ref<HTMLFormElement>();
 const router = useRouter();
 
@@ -73,9 +76,15 @@ async function login() {
   if (valid) {
     signInWithEmailAndPassword(auth, email.value, password.value)
       .then((UserCredential) => {
-        authUser(UserCredential.user)
-          .then(() => router.push("/"))
-          .catch((e) => console.log(e));
+        store.dispatch(Actions.loading, true);
+        authUser(UserCredential.user, store.dispatch)
+          .then(() => {
+            router.push("/");
+          })
+          .catch((e) => console.log(e))
+          .finally(() => {
+            store.dispatch(Actions.loading, false);
+          });
       })
       .catch((e) => {
         hasError.value = true;

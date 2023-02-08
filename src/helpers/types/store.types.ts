@@ -9,4 +9,5 @@ export interface ILoginPayload {
 export interface IState extends ILoginPayload {
   theme: IThemePayload;
   loggedIn: boolean;
+  loading: boolean;
 }

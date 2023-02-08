@@ -13,7 +13,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, computed } from "vue";
+import { computed } from "vue";
 import { useStore } from "vuex";
 
 import TopNav from "./components/TopNav/TopNav.vue";
@@ -21,22 +21,22 @@ import LoadSpinner from "./components/LoadSpinner/LoadSpinner.vue";
 
 import { auth } from "./firebase";
 import { authUser } from "@/helpers/functions/auth";
-import { Mutations } from "./helpers/enums/store/store.enum";
+import { Actions } from "./helpers/enums/store/store.enum";
 
 const store = useStore();
+const loading = computed(() => store.state.loading);
+
 const theme = computed(() => store.state.theme);
-const loading = ref(true);
+
+store.dispatch(Actions.loading, true);
 
 auth.onAuthStateChanged((user) => {
   if (user) {
-    authUser(user, store.dispatch).then(() => {
-      loading.value = false;
-    });
-  } else {
-    store.dispatch(Mutations.logOut).then(() => {
-      loading.value = false;
+    return authUser(user, store.dispatch).then(() => {
+      store.dispatch(Actions.loading, false);
     });
   }
+  store.dispatch(Actions.loading, false);
 });
 </script>
 
