@@ -29,6 +29,8 @@ describe("useColor", () => {
       },
     });
 
-    expect(wrapper.vm.color).toBe("#000000");
+    const colorHEX = "#000000";
+
+    expect(wrapper.vm.color).toBe(colorHEX);
   });
 });
