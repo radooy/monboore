@@ -20,7 +20,7 @@ describe("useColor", () => {
           color,
         };
       },
-      template: `<div :style="{color: color}"> Some text </div>`,
+      template: `<div>Some text</div>`,
     });
 
     const wrapper = shallowMount(TestComponent, {
